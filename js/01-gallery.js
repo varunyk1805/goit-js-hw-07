@@ -21,18 +21,20 @@ gallery.insertAdjacentHTML('beforeend', images);
 
 
 const fullSizeImage = event => {
-    const originalImage = event.target.getAttribute('data-source');
+    if (event.target.classList.contains('gallery__image')) {
+        const originalImage = event.target.getAttribute('data-source');
     
-    const instanse = basicLightbox.create(`
+        const instanse = basicLightbox.create(`
     <img width="1400" height="900" src="${originalImage}">
 	`);
-    instanse.show();
-
-    document.addEventListener('keydown', event => {
-        if (event.code === 'Escape') {
-            instanse.close()
-        }
-    });
+        instanse.show();
+        
+        document.addEventListener('keydown', event => {
+            if (event.code === 'Escape') {
+                instanse.close()
+            }
+        });
+    };
 };
 
 gallery.addEventListener('click', fullSizeImage);
