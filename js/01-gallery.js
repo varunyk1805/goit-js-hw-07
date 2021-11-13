@@ -15,7 +15,8 @@ const images = galleryItems.map(image =>
             />
         </a>
     </div>`
-).join('');
+)
+    .join('');
 
 gallery.insertAdjacentHTML('beforeend', images);
 
@@ -23,17 +24,19 @@ gallery.insertAdjacentHTML('beforeend', images);
 const fullSizeImage = event => {
     if (event.target.classList.contains('gallery__image')) {
         const originalImage = event.target.getAttribute('data-source');
-    
-        const instanse = basicLightbox.create(`
-    <img width="1400" height="900" src="${originalImage}">
-	`);
-        instanse.show();
-        
-        document.addEventListener('keydown', event => {
+        const instanse = basicLightbox.create(
+            `<img width="1400" height="900" src="${originalImage}">`
+        );
+
+        const closeKey = event => {
             if (event.code === 'Escape') {
-                instanse.close()
-            }
-        });
+                instanse.close(
+                    document.removeEventListener('keydown', closeKey)
+                );
+            };
+        };
+        
+        instanse.show(document.addEventListener('keydown', closeKey));
     };
 };
 
